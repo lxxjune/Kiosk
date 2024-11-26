@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart Page</title>
+  </head>
+  <body>
+    <h1>Cart</h1>
+    <div id="cartItems"></div>
+    <div id="totalPrice"></div>
+    <div class="cart-actions">
+      <button onclick="clearCart()">All Delete</button>
+      <button onclick="goToPurchase()">Go to Purchase</button>
+    </div>
+
+    <script>
+      // localStorage에서 장바구니 데이터 가져오기
+      const cart = JSON.parse(localStorage.getItem("cart")) || {};
+      const cartItemsDisplay = document.querySelector("#cartItems");
+      const totalPriceDisplay = document.querySelector("#totalPrice");
+
+      // 장바구니 업데이트
+      function updateCart() {
+        cartItemsDisplay.innerHTML = ""; // 초기화
+        let total = 0;
+
+        Object.keys(cart).forEach((name) => {
+          const { price, count } = cart[name];
+          total += price * count;
+
+          const item = document.createElement("div");
+          item.className = "cart-item";
+          item.innerHTML = `
+            ${name} x${count} <span>${(price * count).toLocaleString()}원</span>
+          `;
+          cartItemsDisplay.appendChild(item);
+        });
+
+        totalPriceDisplay.textContent = `Total: ${total.toLocaleString()}원`; // 총액 표시
+      }
+
+      // 장바구니 비우기
+      function clearCart() {
+        localStorage.removeItem("cart");
+        cartItemsDisplay.innerHTML = "";
+        totalPriceDisplay.textContent = "Total: 0원";
+        alert("장바구니가 초기화되었습니다.");
+      }
+
+      // 구매 페이지 이동
+      function goToPurchase() {
+        alert("구매 페이지로 이동합니다.");
+      }
+
+      // 초기화
+      updateCart();
+    </script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

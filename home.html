@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>키오스크</title>
+  </head>
+  <body>
+    <header>
+      <div class="logo" onclick="goHome()">JUNE</div>
+      <div class="navigation">
+        <button onclick="filterMenu('all')">ALL</button>
+        <button onclick="filterMenu('drinks')">DRINKS</button>
+        <button onclick="filterMenu('desserts')">DESSERTS</button>
+      </div>
+      <div class="cart" onclick="goCart()">Cart</div>
+      <div class="cart-actions"></div>
+    </header>
+
+    <main>
+      <div id="menu" class="menu-grid"></div>
+      <div id="cartItems"></div>
+      <div id="totalPrice"></div>
+      <!-- 그리드에 맞춰서 메뉴 나열 -->
+    </main>
+
+    <div class="floating-cart" id="floatingCart">
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-actions">
+        <button onclick="clearCart()">All Delete</button>
+        <button onclick="addToCartPage()">Add to CART</button>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
