@@ -3,7 +3,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  background-color: #fff;
 }
 
 header {
@@ -14,6 +14,22 @@ header {
   background-color: #fff;
   position: relative; /*for cart */
   color: #000;
+}
+
+#header-cart .logo {
+  font-size: 4vw; /*scale to UI size*/
+  min-width: 120px;
+  max-width: 300px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+#header-cart .back {
+  cursor: pointer;
+  font-size: 1.2rem;
+  position: absolute;
+  left: 20px;
 }
 
 #header-1 .logo {
@@ -70,6 +86,13 @@ header {
   border-radius: 10px;
 }
 
+#header-2 .navigation button.selected {
+  background-color: #000;
+  color: #fff;
+  border-radius: 10px;
+}
+
+
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -105,12 +128,51 @@ header {
   justify-content: space-between;
 }
 
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  position: relative;
+}
+
+.cart-item .item-name {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.cart-item .item-price {
+  text-align: right;
+  min-width: 80px;
+  margin-right: 50px;
+}
+
+.cart-item span {
+  margin: 10px 12px;
+}
+
+
+.cart-item button {
+  padding: 2px; !important
+  font-size: 1rem;
+  width: 24px;
+  height: 24px;
+  background-color: #000; !important;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.cart-item button:hover {
+  background-color: #333;
+}
+
 .cart-items {
   max-height: 200px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0px;
 }
 
 .floating-cart .cart-actions {
@@ -123,10 +185,19 @@ header {
   background-color: #000;
   color: #fff;
   border: none;
-  padding: 20px 20px;
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+}
+
+.delete-btn, .add-cart-btn, .go-to-purchase-btn {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  padding: 20px 20px;
 }
 
 .floating-cart button:hover {

@@ -27,11 +27,24 @@ const cart = {};
 const menu = document.querySelector("#menu");
 const cartItemsDisplay = document.querySelector("#cartItems");
 const totalPriceDisplay = document.querySelector("#totalPrice");
+const navigationButtons = document.querySelectorAll(
+  "#header-2 .navigation button"
+);
 
-//go to Home
 function goHome() {
-  filterMenu("all");
+  location.href = "home.html"; // 페이지 이동
 }
+
+// 클릭 이벤트 추가
+navigationButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    // 모든 버튼에서 'selected' 클래스 제거
+    navigationButtons.forEach((btn) => btn.classList.remove("selected"));
+
+    // 클릭된 버튼에 'selected' 클래스 추가
+    button.classList.add("selected");
+  });
+});
 
 // menu filtering and add menu on floating-cart
 function filterMenu(category) {
@@ -72,13 +85,46 @@ function updateCart() {
     total += price * count;
 
     const item = document.createElement("div");
-    item.textContent = `${name} x${count} (${(
-      price * count
-    ).toLocaleString()}원)`;
+    item.className = "cart-item";
+
+    item.innerHTML = `
+      <span class="item-name">${name}</span>
+      <span class="item-price">${(price * count).toLocaleString()}원</span>
+      <div class="count-and-buttons">
+        <button class="decrease" data-name="${name}">-</button>
+        <span class="count">${count}</span>
+        <button class="increase" data-name="${name}">+</button>
+      </div>
+    `;
+
     cartItemsDisplay.appendChild(item);
   });
 
   totalPriceDisplay.textContent = `Total: ${total.toLocaleString()}원`; // 총 금액 업데이트
+
+  //event handler
+  const increaseButtons = cartItemsDisplay.querySelectorAll(".increase");
+  const decreaseButtons = cartItemsDisplay.querySelectorAll(".decrease");
+
+  increaseButtons.forEach((button) =>
+    button.addEventListener("click", (event) => {
+      const name = event.target.dataset.name;
+      cart[name].count++;
+      updateCart();
+    })
+  );
+
+  decreaseButtons.forEach((button) =>
+    button.addEventListener("click", (event) => {
+      const name = event.target.dataset.name;
+      if (cart[name].count > 1) {
+        cart[name].count--;
+      } else {
+        delete cart[name]; // 수량이 0이 되면 장바구니에서 삭제
+      }
+      updateCart();
+    })
+  );
 }
 
 //delete
@@ -109,5 +155,11 @@ function goCart() {
 
 // reset
 document.addEventListener("DOMContentLoaded", () => {
-  filterMenu("all");
+  // localStorage에서 데이터 가져오기
+  const storedCart = JSON.parse(localStorage.getItem("cart"));
+  if (storedCart) {
+    Object.assign(cart, storedCart); // cart 객체 동기화
+  }
+  updateCart(); // 장바구니 업데이트
 });
+console.log("Cart from localStorage:", cart);

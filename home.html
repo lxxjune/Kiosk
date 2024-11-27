@@ -10,7 +10,6 @@
     <header id="header-1">
       <div class="logo" onclick="goHome()">JUNE</div>
       <div class="cart" onclick="goCart()">Cart</div>
-      <div class="cart-actions"></div>
     </header>
 
     <header id="header-2">
@@ -28,11 +27,13 @@
 
     <div class="floating-cart" id="floatingCart">
       <div class="cart-items" id="cartItems"></div>
-      <div id="cartItems"></div>
+      <div class="cart-item"></div>
       <div id="totalPrice"></div>
       <div class="cart-actions">
-        <button onclick="clearCart()">All Delete</button>
-        <button onclick="addToCartPage()">Add to CART</button>
+        <button class="delete-btn" onclick="clearCart()">All Delete</button>
+        <button class="add-cart-btn" onclick="addToCartPage()">
+          Add to CART
+        </button>
       </div>
     </div>
 

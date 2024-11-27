@@ -7,12 +7,18 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <h1>Cart</h1>
+    <header id="header-cart">
+      <div class="back" onclick="goHome()">Back</div>
+      <div class="logo">Cart</div>
+    </header>
+
     <div id="cartItems"></div>
     <div id="totalPrice"></div>
     <div class="cart-actions">
-      <button onclick="clearCart()">All Delete</button>
-      <button onclick="goToPurchase()">Go to Purchase</button>
+      <button class="delete-btn" onclick="clearCart()">All Delete</button>
+      <button class="go-to-purchase-btn" onclick="goToPurchase()">
+        Go to Purchase
+      </button>
     </div>
 
     <script>
@@ -21,7 +27,7 @@
       const cartItemsDisplay = document.querySelector("#cartItems");
       const totalPriceDisplay = document.querySelector("#totalPrice");
 
-      // 장바구니 업데이트
+      // 장바구니와 총액 업데이트
       function updateCart() {
         cartItemsDisplay.innerHTML = ""; // 초기화
         let total = 0;
@@ -32,20 +38,56 @@
 
           const item = document.createElement("div");
           item.className = "cart-item";
+
           item.innerHTML = `
-            ${name} x${count} <span>${(price * count).toLocaleString()}원</span>
+            <span class="item-name">${name}</span>
+            <span class="item-price">${(
+              price * count
+            ).toLocaleString()}원</span>
+            <div class="count-and-buttons">
+              <button class="decrease" data-name="${name}">-</button>
+              <span class="count">${count}</span>
+              <button class="increase" data-name="${name}">+</button>
+            </div>
           `;
+
           cartItemsDisplay.appendChild(item);
         });
 
-        totalPriceDisplay.textContent = `Total: ${total.toLocaleString()}원`; // 총액 표시
+        totalPriceDisplay.textContent = `Total: ${total.toLocaleString()}원`; // 총 금액 업데이트
+
+        // 버튼 이벤트 핸들러 추가
+        const increaseButtons = cartItemsDisplay.querySelectorAll(".increase");
+        const decreaseButtons = cartItemsDisplay.querySelectorAll(".decrease");
+
+        increaseButtons.forEach((button) =>
+          button.addEventListener("click", (event) => {
+            const name = event.target.dataset.name;
+            cart[name].count++;
+            updateCart();
+          })
+        );
+
+        decreaseButtons.forEach((button) =>
+          button.addEventListener("click", (event) => {
+            const name = event.target.dataset.name;
+            if (cart[name].count > 1) {
+              cart[name].count--;
+            } else {
+              delete cart[name]; // 수량이 0이 되면 장바구니에서 삭제
+            }
+            updateCart();
+          })
+        );
       }
 
       // 장바구니 비우기
       function clearCart() {
+        for (const key in cart) {
+          delete cart[key];
+        }
         localStorage.removeItem("cart");
-        cartItemsDisplay.innerHTML = "";
-        totalPriceDisplay.textContent = "Total: 0원";
+        updateCart();
         alert("장바구니가 초기화되었습니다.");
       }
 
@@ -54,8 +96,14 @@
         alert("구매 페이지로 이동합니다.");
       }
 
-      // 초기화
-      updateCart();
+      // 페이지 로드 시 초기화
+      document.addEventListener("DOMContentLoaded", () => {
+        const storedCart = JSON.parse(localStorage.getItem("cart"));
+        if (storedCart) {
+          Object.assign(cart, storedCart); // 장바구니 데이터 동기화
+        }
+        updateCart();
+      });
     </script>
     <script src="js/script.js"></script>
   </body>
