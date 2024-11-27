@@ -33,9 +33,10 @@ function goHome() {
   filterMenu("all");
 }
 
-// menu filtering
+// menu filtering and add menu on floating-cart
 function filterMenu(category) {
   menu.innerHTML = ""; // 초기화
+  //add menu
   menuData[category].forEach((item) => {
     const button = document.createElement("button");
     button.textContent = `${item.name} (${item.price.toLocaleString()}원)`;
@@ -107,4 +108,6 @@ function goCart() {
 }
 
 // reset
-goHome();
+document.addEventListener("DOMContentLoaded", () => {
+  filterMenu("all");
+});

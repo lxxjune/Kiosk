@@ -3,29 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>키오스크</title>
+    <title>Home Page</title>
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <header>
+    <header id="header-1">
       <div class="logo" onclick="goHome()">JUNE</div>
+      <div class="cart" onclick="goCart()">Cart</div>
+      <div class="cart-actions"></div>
+    </header>
+
+    <header id="header-2">
       <div class="navigation">
         <button onclick="filterMenu('all')">ALL</button>
         <button onclick="filterMenu('drinks')">DRINKS</button>
         <button onclick="filterMenu('desserts')">DESSERTS</button>
       </div>
-      <div class="cart" onclick="goCart()">Cart</div>
-      <div class="cart-actions"></div>
     </header>
 
     <main>
       <div id="menu" class="menu-grid"></div>
-      <div id="cartItems"></div>
-      <div id="totalPrice"></div>
-      <!-- 그리드에 맞춰서 메뉴 나열ddsdfdsf -->
+      <!-- 그리드에 맞춰서 메뉴 나열 -->
     </main>
 
     <div class="floating-cart" id="floatingCart">
       <div class="cart-items" id="cartItems"></div>
+      <div id="cartItems"></div>
+      <div id="totalPrice"></div>
       <div class="cart-actions">
         <button onclick="clearCart()">All Delete</button>
         <button onclick="addToCartPage()">Add to CART</button>
